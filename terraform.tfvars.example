@@ -15,6 +15,6 @@ service_principal_rbac_assignments = [
   }
 ]
 
-key_vault_soft-delete_retention = 7
+key_vault_soft_delete_retention = 7
 
 // terraform_state_aad_group = "My Terraform State Admins"

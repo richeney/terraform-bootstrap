@@ -16,14 +16,8 @@ resource "azurerm_monitor_diagnostic_setting" "state" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.state.id
 
 
-  log {
+  enabled_log {
     category = "AuditEvent"
-    enabled  = true
-
-    retention_policy {
-      enabled = true
-      days    = 28
-    }
   }
 
   metric {
@@ -34,3 +28,25 @@ resource "azurerm_monitor_diagnostic_setting" "state" {
     }
   }
 }
+
+# Define the storage management policy for log retention
+resource "azurerm_storage_management_policy" "log_retention" {
+  storage_account_id = data.azurerm_storage_account.state.id
+
+  # Define a rule to delete logs after 30 days
+  rule {
+    name    = "delete_after_30_days"
+    enabled = true
+
+    filters {
+      blob_types   = ["appendBlob"]
+      prefix_match = ["logs/"]
+    }
+    # Delete after 30 days
+    actions {
+      base_blob {
+        delete_after_days_since_modification_greater_than = 30
+      }
+
+   }
+ }

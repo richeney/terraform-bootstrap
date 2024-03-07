@@ -3,8 +3,8 @@ locals {
 }
 
 data "azuread_group" "terraform_state_aad_group" {
-  for_each = local.terraform_state_aad_group
-  name     = each.value
+  for_each     = local.terraform_state_aad_group
+  display_name = each.value
 }
 
 data "azurerm_storage_account" "state" {
