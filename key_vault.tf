@@ -10,7 +10,6 @@ resource "azurerm_key_vault" "state" {
   enabled_for_disk_encryption     = false
   enabled_for_template_deployment = false
   purge_protection_enabled        = false
-  soft_delete_enabled             = true
   soft_delete_retention_days      = var.key_vault_soft_delete_retention
 
   network_acls {
@@ -77,7 +76,7 @@ resource "azurerm_key_vault_secret" "client_id" {
   depends_on   = [azurerm_key_vault_access_policy.terraform_state_owner]
   name         = "client-id"
   key_vault_id = azurerm_key_vault.state.id
-  value        = azuread_service_principal.terraform.application_id
+  value        = azuread_service_principal.terraform.client_id
 }
 
 resource "azurerm_key_vault_secret" "client_secret" {
