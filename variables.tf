@@ -23,7 +23,7 @@ variable "location" {
 
 variable "tags" {
   description = "Optional map of key:value tags."
-  type        = map
+  type        = map(any)
   default     = {}
 }
 

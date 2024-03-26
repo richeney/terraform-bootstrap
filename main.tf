@@ -1,18 +1,34 @@
-provider "azuread" {
-  version = "~> 0.8.0"
+terraform {
+  required_providers {
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.47.0"
+    }
+    random = {
+      version = "~> 3.6.0"
+    }
+    local = {
+      version = "~> 2.4.1"
+    }
+    azurerm = {
+      version = "~> 3.94.0"
+    }
+  }
 }
 
-provider "random" {
-  version = "~> 2.2"
-}
+provider "azuread" {}
 
-provider "local" {
-  version = "~> 1.4"
-}
+provider "random" {}
+
+provider "local" {}
 
 provider "azurerm" {
-  version = "~> 2.9"
-  features {}
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy    = true
+      recover_soft_deleted_key_vaults = true
+    }
+  }
 }
 
 data "azurerm_client_config" "current" {}

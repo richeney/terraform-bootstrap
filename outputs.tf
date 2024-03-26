@@ -192,11 +192,11 @@ output "bootstrap_state_blob_name" {
 }
 
 output "app_id" {
-  value = azuread_application.terraform.application_id
+  value = azuread_application.terraform.client_id
 }
 
 output "app_object_id" {
-  value = azuread_application.terraform.id
+  value = azuread_application.terraform.object_id
 }
 
 output "sp_object_id" {
@@ -204,7 +204,7 @@ output "sp_object_id" {
 }
 
 output "client_id" {
-  value = azuread_service_principal.terraform.application_id
+  value = azuread_service_principal.terraform.client_id
 }
 
 output "rbac_authorizations" {
@@ -236,7 +236,7 @@ output "provider_variables" {
   value = <<PROVIDER
 
   tenant_id     = "${data.azurerm_client_config.current.tenant_id}"
-  client_id     = "${azuread_service_principal.terraform.application_id}"
+  client_id     = "${azuread_service_principal.terraform.client_id}
   client_secret = data.azurerm_key_vault_secret.client_secret.value
 PROVIDER
 }
@@ -246,7 +246,7 @@ output "environment_variables" {
 
 export ARM_TENANT_ID=${data.azurerm_client_config.current.tenant_id}
 export ARM_SUBSCRIPTION_ID=$(az account show --output tsv --query id)
-export ARM_CLIENT_ID=${azuread_service_principal.terraform.application_id}
+export ARM_CLIENT_ID=${azuread_service_principal.terraform.client_id}
 export ARM_CLIENT_SECRET=$(az keyvault secret show --vault-name ${azurerm_key_vault.state.name} --name client-secret --output tsv --query value)
 ENVVARS
 }
